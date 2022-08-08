@@ -123,8 +123,6 @@ let dealerTotal = 0;
 let message;
 let dealCard;
 let removedCards;
-let player;
-let dealer;
 
 // 3) Store elements on the page that will be accessed in code more than once in variables to make code more concise, readable and performant.
 
@@ -156,7 +154,20 @@ function init() {
   dealerCards = [];
   hitButton.disabled = false;
   standButton.disabled = false;
+  deal("player");
+  calcTotal("player");
+//   deal("player");
+//   calcTotal("player");
+//   deal("dealer");
+//   calcTotal("dealer");
+//   deal("dealer");
+//   calcTotal("dealer");
+  console.log(playerCards)
+  console.log(playerTotal)
+  console.log(dealerCards)
+  console.log(dealerTotal)
 }
+init();
 // 		4.1.1) Deal the player and dealer 2 cards
 
 // 		4.1.2) Winner message is blank
@@ -171,15 +182,8 @@ function render() {}
 
 // 5) Handle a player clicking hit
 hitButton.addEventListener("click", function () {
-  deal(player);
-  playerTotal = playerTotal + eval(dealCard);
-  console.log("player total " + playerTotal);
-  if (playerTotal > 21) {
-    message.textContent = "Dealer wins!";
-    hitButton.disabled = true;
-    standButton.disabled = true;
-    return;
-  }
+  deal("player");
+  calcTotal("player");
 });
 // 	5.1) Deal the player another card
 
@@ -195,9 +199,8 @@ standButton.addEventListener("click", function () {
 });
 
 function dealDealer() {
-  deal(dealer);
-  dealerTotal = dealerTotal + eval(dealCard);
-  console.log("dealer total " + dealerTotal);
+  deal("dealer");
+  calcTotal("dealer");
   if (dealerTotal > 21) {
     message.textContent = "Player wins!";
   } else if (dealerTotal < 17) {
@@ -206,6 +209,7 @@ function dealDealer() {
     compareTotals();
   }
 }
+
 // 	6.1) If total value is less than 17, dealer receives another card
 
 //  	6.2) If total value is 17 or more, dealer stands (stop dealing)
@@ -222,18 +226,25 @@ newGameButton.addEventListener("click", function () {
 
 // 	8.1) Random card generator
 function deal(playerOrDealer) {
-  randomIndex = Math.floor(Math.random() * deck.length - 1);
+  randomIndex = Math.floor(Math.random()*deck.length - 1);
   dealCard = deck[randomIndex];
-  // console.log(dealCard)
   removedCards = deck.splice(randomIndex, 1);
   if (playerOrDealer === "player") {
     playerCards.push(dealCard);
-    console.log("player" + playerCards);
   } else if (playerOrDealer === "dealer") {
     dealerCards.push(dealCard);
-    // console.log('dealer' + dealerCards)
-    // console.log('index' + randomIndex)
-    // console.log('dealCard' + dealCard)
+  }
+}
+function calcTotal(playerOrDealer) {
+  if (playerOrDealer === "player") {
+    playerTotal = playerTotal + eval(dealCard);
+    if (playerTotal > 21) {
+      message.textContent = "Dealer wins!";
+      hitButton.disabled = true;
+      standButton.disabled = true;
+    }
+  } else if (playerOrDealer === "dealer") {
+    dealerTotal = dealerTotal + eval(dealCard);
   }
 }
 
