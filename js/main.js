@@ -108,7 +108,7 @@ dK =
     10;
 
 // 	1.2.2) card A: value = 1 or 11
-
+let addCard;
 // 2) Define required variables used to track the state of the game
 
 // 	2.1) Player’s cards
@@ -154,26 +154,47 @@ function init() {
   dealerCards = [];
   hitButton.disabled = false;
   standButton.disabled = false;
+  removeAllCards(playerCardsEl);
+  removeAllCards(dealerCardsEl);
   deal("player");
   calcTotal("player");
-//   deal("player");
-//   calcTotal("player");
-//   deal("dealer");
-//   calcTotal("dealer");
-//   deal("dealer");
-//   calcTotal("dealer");
-  console.log(playerCards)
-  console.log(playerTotal)
-  console.log(dealerCards)
-  console.log(dealerTotal)
+  renderCards("player");
+  deal("player");
+  calcTotal("player");
+  renderCards("player");
+  deal("dealer");
+  calcTotal("dealer");
+  renderCards("dealer");
 }
 init();
+
+function removeAllCards(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
 // 		4.1.1) Deal the player and dealer 2 cards
 
 // 		4.1.2) Winner message is blank
 
 // 	4.2) Render those values to the page
-function render() {}
+function renderCards(playerOrDealer) {
+  if (playerOrDealer === "player") {
+    playerTotalEl.textContent = playerTotal;
+    addCard = document.createElement("div");
+    addCard.classList.add(String(dealCard));
+    addCard.classList.add("card");
+    addCard.classList.add("large");
+    playerCardsEl.appendChild(addCard);
+  } else if (playerOrDealer === "dealer") {
+    dealerTotalEl.textContent = dealerTotal;
+    addCard = document.createElement("div");
+    addCard.classList.add(String(dealCard));
+    addCard.classList.add("card");
+    addCard.classList.add("large");
+    dealerCardsEl.appendChild(addCard);
+  }
+}
 // 		4.2.1) Player has both cards face up
 
 // 		4.2.2) Dealer has one card face up and one face down
@@ -184,6 +205,19 @@ function render() {}
 hitButton.addEventListener("click", function () {
   deal("player");
   calcTotal("player");
+  renderCards("player");
+  if (playerTotal === 21) {
+    standButton.disabled = true;
+    hitButton.disabled = true;
+    message.textContent = "Player wins!";
+    deal("dealer");
+    calcTotal("dealer");
+    renderCards("dealer");
+  } else if (playerTotal >= 21) {
+    deal("dealer");
+    calcTotal("dealer");
+    renderCards("dealer");
+  }
 });
 // 	5.1) Deal the player another card
 
@@ -201,6 +235,7 @@ standButton.addEventListener("click", function () {
 function dealDealer() {
   deal("dealer");
   calcTotal("dealer");
+  renderCards("dealer");
   if (dealerTotal > 21) {
     message.textContent = "Player wins!";
   } else if (dealerTotal < 17) {
@@ -226,7 +261,7 @@ newGameButton.addEventListener("click", function () {
 
 // 	8.1) Random card generator
 function deal(playerOrDealer) {
-  randomIndex = Math.floor(Math.random()*deck.length - 1);
+  randomIndex = Math.floor(Math.random() * deck.length);
   dealCard = deck[randomIndex];
   removedCards = deck.splice(randomIndex, 1);
   if (playerOrDealer === "player") {
