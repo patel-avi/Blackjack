@@ -121,6 +121,10 @@ let dealerCards = [];
 let dealerTotal = 0;
 // 	2.5) Message
 let message;
+let dealCard;
+let removedCards;
+let player;
+let dealer;
 
 // 3) Store elements on the page that will be accessed in code more than once in variables to make code more concise, readable and performant.
 
@@ -144,7 +148,15 @@ message = document.getElementById("message");
 // 4) Upon loading the app should:
 
 // 	4.1) Initialize the state variables
-function init() {}
+function init() {
+  message.textContent = "";
+  playerTotal = 0;
+  dealerTotal = 0;
+  playerCards = [];
+  dealerCards = [];
+  hitButton.disabled = false;
+  standButton.disabled = false;
+}
 // 		4.1.1) Deal the player and dealer 2 cards
 
 // 		4.1.2) Winner message is blank
@@ -158,13 +170,42 @@ function render() {}
 // 	4.3) Wait for the user to click hit or stand
 
 // 5) Handle a player clicking hit
-
+hitButton.addEventListener("click", function () {
+  deal(player);
+  playerTotal = playerTotal + eval(dealCard);
+  console.log("player total " + playerTotal);
+  if (playerTotal > 21) {
+    message.textContent = "Dealer wins!";
+    hitButton.disabled = true;
+    standButton.disabled = true;
+    return;
+  }
+});
 // 	5.1) Deal the player another card
 
 // 	5.2) If player’s total value is 21 or more, display dealer wins message
 
 // 6) Handle a player clicking stand – switch to dealer’s turn and handle dealer’s cards
+standButton.addEventListener("click", function () {
+  standButton.disabled = true;
+  hitButton.disabled = true;
+  if (playerTotal <= 21) {
+    dealDealer();
+  }
+});
 
+function dealDealer() {
+  deal(dealer);
+  dealerTotal = dealerTotal + eval(dealCard);
+  console.log("dealer total " + dealerTotal);
+  if (dealerTotal > 21) {
+    message.textContent = "Player wins!";
+  } else if (dealerTotal < 17) {
+    dealDealer();
+  } else if (dealerTotal >= 17) {
+    compareTotals();
+  }
+}
 // 	6.1) If total value is less than 17, dealer receives another card
 
 //  	6.2) If total value is 17 or more, dealer stands (stop dealing)
@@ -172,16 +213,40 @@ function render() {}
 // 	6.3) If the dealer has an ace and counting it as 11 would bring the total to 17 or more (but not over 21), count the ace as 11 and dealer			stands, otherwise count the ace as 1
 
 // 7) Handle a player clicking the new game button
-
+newGameButton.addEventListener("click", function () {
+  init();
+});
 // 	7.1) Initialize the state variables
 
 // 8) Dealing cards
 
 // 	8.1) Random card generator
-function deal(playerOrDealer) {}
+function deal(playerOrDealer) {
+  randomIndex = Math.floor(Math.random() * deck.length - 1);
+  dealCard = deck[randomIndex];
+  // console.log(dealCard)
+  removedCards = deck.splice(randomIndex, 1);
+  if (playerOrDealer === "player") {
+    playerCards.push(dealCard);
+    console.log("player" + playerCards);
+  } else if (playerOrDealer === "dealer") {
+    dealerCards.push(dealCard);
+    // console.log('dealer' + dealerCards)
+    // console.log('index' + randomIndex)
+    // console.log('dealCard' + dealCard)
+  }
+}
 
 // 9) Decide winner
-function compareTotals() {}
+function compareTotals() {
+  if (playerTotal > dealerTotal) {
+    message.textContent = "Player wins!";
+  } else if (dealerTotal > playerTotal) {
+    message.textContent = "Dealer wins!";
+  } else if (playerTotal === dealerTotal) {
+    message.textContent = "Tie";
+  }
+}
 
 // 	9.1) Compare player’s total value to dealer’s total value
 
