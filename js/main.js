@@ -3,7 +3,7 @@
 // 1) Define required constants
 
 // 1.1) Define the 52 cards in a deck
-const deck = [
+let deck = [
   "dA",
   "dK",
   "dQ",
@@ -122,7 +122,7 @@ let dealerTotal = 0;
 // 	2.5) Message
 let message;
 let dealCard;
-let removedCards;
+let removedCards = [];
 
 // 3) Store elements on the page that will be accessed in code more than once in variables to make code more concise, readable and performant.
 
@@ -144,7 +144,7 @@ let newGameButton = document.getElementById("new-game");
 message = document.getElementById("message");
 
 // 4) Upon loading the app should:
-
+// console.log(allCards)
 // 	4.1) Initialize the state variables
 function init() {
   message.textContent = "";
@@ -156,6 +156,8 @@ function init() {
   standButton.disabled = false;
   removeAllCards(playerCardsEl);
   removeAllCards(dealerCardsEl);
+  deck = deck.concat(removedCards);
+  removedCards = [];
   deal("player");
   calcTotal("player");
   renderCards("player");
@@ -209,7 +211,7 @@ hitButton.addEventListener("click", function () {
   if (playerTotal === 21) {
     standButton.disabled = true;
     hitButton.disabled = true;
-    message.textContent = "Player wins!";
+    message.textContent = "YOU WIN!";
     deal("dealer");
     calcTotal("dealer");
     renderCards("dealer");
@@ -237,7 +239,7 @@ function dealDealer() {
   calcTotal("dealer");
   renderCards("dealer");
   if (dealerTotal > 21) {
-    message.textContent = "Player wins!";
+    message.textContent = "YOU WIN!";
   } else if (dealerTotal < 17) {
     dealDealer();
   } else if (dealerTotal >= 17) {
@@ -263,7 +265,8 @@ newGameButton.addEventListener("click", function () {
 function deal(playerOrDealer) {
   randomIndex = Math.floor(Math.random() * deck.length);
   dealCard = deck[randomIndex];
-  removedCards = deck.splice(randomIndex, 1);
+  deck.splice(randomIndex, 1);
+  removedCards.push(dealCard)
   if (playerOrDealer === "player") {
     playerCards.push(dealCard);
   } else if (playerOrDealer === "dealer") {
@@ -274,7 +277,7 @@ function calcTotal(playerOrDealer) {
   if (playerOrDealer === "player") {
     playerTotal = playerTotal + eval(dealCard);
     if (playerTotal > 21) {
-      message.textContent = "Dealer wins!";
+      message.textContent = "DEALER WINS!";
       hitButton.disabled = true;
       standButton.disabled = true;
     }
@@ -286,11 +289,11 @@ function calcTotal(playerOrDealer) {
 // 9) Decide winner
 function compareTotals() {
   if (playerTotal > dealerTotal) {
-    message.textContent = "Player wins!";
+    message.textContent = "YOU WIN!";
   } else if (dealerTotal > playerTotal) {
-    message.textContent = "Dealer wins!";
+    message.textContent = "DEALER WINS!";
   } else if (playerTotal === dealerTotal) {
-    message.textContent = "Tie";
+    message.textContent = "PUSH";
   }
 }
 
