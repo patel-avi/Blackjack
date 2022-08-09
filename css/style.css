@@ -1,5 +1,17 @@
-h1, h2 {
+body {
+    background-color: #4AA569;
+
+}
+
+h1 {
     text-align: center;
+    font-family: 'Inika', serif;
+    font-size: 70px;
+}
+
+h2  {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
 }
 
 .dealer, .player {
@@ -13,14 +25,13 @@ h1, h2 {
     height: 50px;
     line-height: 50px;
     margin: 0 0 40px 0;
-    /* padding: 20px; */
+    font-size: 30px;
+    font-family: 'Inknut Antiqua', serif;
 }
 
 .buttons {
     display:flex;
     justify-content: center;
-    /* align-items: center; */
-    /* width: 500px; */
 }
 
 #hit, #stand {
@@ -28,5 +39,10 @@ h1, h2 {
 }
 
 #new-game {
-    margin: 5% 0 0 15%
+    margin: 5% 0 0 15%;
+}
+
+button {
+    font-family: 'Inter', sans-serif;
+    padding: 5px;
 }
