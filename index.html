@@ -5,23 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack</title>
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cardstarter.css">
     <script defer src="js/main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inika&family=Inknut+Antiqua&family=Inter&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Blackjack</h1>
+    <h1>BLACKJACK</h1>
+    <h2>DEALER</h2>
+    <div class="dealer">
+        <div class="dealer-cards"></div>
+        <div id="dealer-total"></div>
+    </div>
     <div id="message"></div>
-    <button id="new-game">NEW GAME</button>
-    <h2>Dealer</h2>
-    <div class="dealer-cards">
+    <h2>PLAYER</h2>
+    <div class="player">
+        <div class="player-cards"></div>
+        <div id="player-total"></div>
     </div>
-    <div id="dealer-total"></div>
-    <h2>Player</h2>
-    <div class="player-cards">
+    <div class="buttons">
+        <button id="hit">HIT</button>
+        <button id="stand">STAND</button>
     </div>
-    <div id="player-total"></div>
-    <button id="hit">HIT</button>
-    <button id="stand">STAND</button>
+    <div class="container">
+        <button id="new-game">NEW GAME</button>
+    </div>
 </body>
 </html>
