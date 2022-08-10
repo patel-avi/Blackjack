@@ -177,6 +177,9 @@ function initialDeal() {
   hideDealerCard();
   if (playerTotal === 21) {
     showDealerCard();
+    compareTotals();
+    hitButton.disabled = true;
+    standButton.disabled = true;
   }
 }
 
@@ -225,7 +228,6 @@ function showDealerCard() {
   let hiddenCardEl = document.querySelector(".back");
   hiddenCardEl.classList.remove("back");
   hiddenCardEl.classList.add(hiddenCard);
-  compareTotals();
 }
 // 	4.3) Wait for the user to click hit or stand
 
@@ -237,7 +239,7 @@ hitButton.addEventListener("click", function () {
   if (playerTotal === 21) {
     standButton.disabled = true;
     hitButton.disabled = true;
-    message.textContent = "YOU WIN hit button!";
+    message.textContent = "YOU WIN!";
     showDealerCard();
   } else if (playerTotal >= 21) {
     showDealerCard();
@@ -268,7 +270,7 @@ function dealDealer() {
   if (dealerTotal === 21) {
     compareTotals();
   } else if (dealerTotal > 21) {
-    message.textContent = "YOU WIN dealdealer!";
+    message.textContent = "YOU WIN!";
   } else if (dealerTotal < 17) {
     dealDealer();
   } else if (dealerTotal >= 17) {
@@ -318,7 +320,7 @@ function calcTotal(playerOrDealer) {
         });
       }
       if (playerTotal > 21) {
-        message.textContent = "DEALER WINS! calctotal";
+        message.textContent = "DEALER WINS!";
         hitButton.disabled = true;
         standButton.disabled = true;
       }
@@ -343,9 +345,9 @@ function calcTotal(playerOrDealer) {
 // 9) Decide winner
 function compareTotals() {
   if (playerTotal > dealerTotal) {
-    message.textContent = "YOU WIN! comparetotal";
+    message.textContent = "YOU WIN!";
   } else if (dealerTotal > playerTotal) {
-    message.textContent = "DEALER WINS! comparetotal";
+    message.textContent = "DEALER WINS!";
   } else if (playerTotal === dealerTotal) {
     message.textContent = "PUSH";
   }
