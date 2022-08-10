@@ -156,6 +156,11 @@ function init() {
   dA = hA = sA = cA = 11;
   hitButton.disabled = false;
   standButton.disabled = false;
+  initialDeal();
+}
+init();
+
+function initialDeal() {
   removeAllCards(playerCardsEl);
   removeAllCards(dealerCardsEl);
   deck = deck.concat(removedCards);
@@ -170,8 +175,10 @@ function init() {
   renderCards("dealer");
   deal("dealer");
   hideDealerCard();
+  if (playerTotal === 21) {
+    showDealerCard();
+  }
 }
-init();
 
 function removeAllCards(element) {
   while (element.firstChild) {
@@ -218,6 +225,7 @@ function showDealerCard() {
   let hiddenCardEl = document.querySelector(".back");
   hiddenCardEl.classList.remove("back");
   hiddenCardEl.classList.add(hiddenCard);
+  compareTotals();
 }
 // 	4.3) Wait for the user to click hit or stand
 
@@ -229,7 +237,7 @@ hitButton.addEventListener("click", function () {
   if (playerTotal === 21) {
     standButton.disabled = true;
     hitButton.disabled = true;
-    message.textContent = "YOU WIN!";
+    message.textContent = "YOU WIN hit button!";
     showDealerCard();
   } else if (playerTotal >= 21) {
     showDealerCard();
@@ -246,7 +254,9 @@ standButton.addEventListener("click", function () {
   if (playerTotal <= 21) {
     showDealerCard();
   }
-  if (dealerTotal < 21) {
+  if (dealerTotal >= 17) {
+    compareTotals();
+  } else {
     dealDealer();
   }
 });
@@ -256,9 +266,9 @@ function dealDealer() {
   calcTotal("dealer");
   renderCards("dealer");
   if (dealerTotal === 21) {
-    compareTotals()
+    compareTotals();
   } else if (dealerTotal > 21) {
-    message.textContent = "YOU WIN!";
+    message.textContent = "YOU WIN dealdealer!";
   } else if (dealerTotal < 17) {
     dealDealer();
   } else if (dealerTotal >= 17) {
@@ -308,7 +318,7 @@ function calcTotal(playerOrDealer) {
         });
       }
       if (playerTotal > 21) {
-        message.textContent = "DEALER WINS!";
+        message.textContent = "DEALER WINS! calctotal";
         hitButton.disabled = true;
         standButton.disabled = true;
       }
@@ -333,9 +343,9 @@ function calcTotal(playerOrDealer) {
 // 9) Decide winner
 function compareTotals() {
   if (playerTotal > dealerTotal) {
-    message.textContent = "YOU WIN!";
+    message.textContent = "YOU WIN! comparetotal";
   } else if (dealerTotal > playerTotal) {
-    message.textContent = "DEALER WINS!";
+    message.textContent = "DEALER WINS! comparetotal";
   } else if (playerTotal === dealerTotal) {
     message.textContent = "PUSH";
   }
@@ -356,16 +366,3 @@ function compareTotals() {
 /*----- cached element references -----*/
 /*----- event listeners -----*/
 /*----- functions -----*/
-
-// dealer's card facing down
-
-// ace as 1 or 11
-// A + 4 = 15
-// A + 4 + K = 15
-
-// 3 + 2 + 5 + A = 21
-
-// dealer
-// A + 7 = 18
-
-// if dealer and player both get 21?
