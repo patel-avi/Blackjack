@@ -85,7 +85,7 @@ let d02, h02, s02, c02;
 d02 = h02 = s02 = c02 = 2;
 
 let dA, hA, sA, cA;
-dA = hA = sA = cA = 1;
+dA = hA = sA = cA = 11;
 
 // 	1.2.2) cards 10,J,Q,K: value = 10
 let dK, dQ, dJ, d10, hK, hQ, hJ, h10, sK, sQ, sJ, s10, cK, cQ, cJ, c10;
@@ -108,7 +108,6 @@ dK =
     10;
 
 // 	1.2.2) card A: value = 1 or 11
-let addCard;
 // 2) Define required variables used to track the state of the game
 
 // 	2.1) Player’s cards
@@ -123,6 +122,7 @@ let dealerTotal = 0;
 let message;
 let dealCard;
 let removedCards = [];
+let addCard;
 
 // 3) Store elements on the page that will be accessed in code more than once in variables to make code more concise, readable and performant.
 
@@ -152,6 +152,7 @@ function init() {
   dealerTotal = 0;
   playerCards = [];
   dealerCards = [];
+  dA = hA = sA = cA = 11;
   hitButton.disabled = false;
   standButton.disabled = false;
   removeAllCards(playerCardsEl);
@@ -159,7 +160,6 @@ function init() {
   deck = deck.concat(removedCards);
   removedCards = [];
   deal("player");
-  calcTotal("player");
   renderCards("player");
   deal("player");
   calcTotal("player");
@@ -266,23 +266,48 @@ function deal(playerOrDealer) {
   randomIndex = Math.floor(Math.random() * deck.length);
   dealCard = deck[randomIndex];
   deck.splice(randomIndex, 1);
-  removedCards.push(dealCard)
+  removedCards.push(dealCard);
   if (playerOrDealer === "player") {
     playerCards.push(dealCard);
   } else if (playerOrDealer === "dealer") {
     dealerCards.push(dealCard);
   }
 }
+
 function calcTotal(playerOrDealer) {
   if (playerOrDealer === "player") {
-    playerTotal = playerTotal + eval(dealCard);
-    if (playerTotal > 21) {
-      message.textContent = "DEALER WINS!";
-      hitButton.disabled = true;
-      standButton.disabled = true;
-    }
+    playerTotal = 0;
+    playerCards.forEach(function (card) {
+      checkPlayerTotal = playerTotal + eval(card);
+      if (checkPlayerTotal <= 21) {
+        playerTotal = checkPlayerTotal;
+      } else if (checkPlayerTotal > 21) {
+        dA = hA = sA = cA = 1;
+        playerTotal = 0;
+        playerCards.forEach(function (card) {
+          playerTotal = playerTotal + eval(card);
+        });
+      }
+      if (playerTotal > 21) {
+        message.textContent = "DEALER WINS!";
+        hitButton.disabled = true;
+        standButton.disabled = true;
+      }
+    });
   } else if (playerOrDealer === "dealer") {
-    dealerTotal = dealerTotal + eval(dealCard);
+    dealerTotal = 0;
+    dealerCards.forEach(function (card) {
+      checkDealerTotal = dealerTotal + eval(card);
+      if (checkDealerTotal <= 21) {
+        dealerTotal = checkDealerTotal;
+      } else if (checkDealerTotal > 21) {
+        dA = hA = sA = cA = 1;
+        dealerTotal = 0;
+        dealerCards.forEach(function (card) {
+          dealerTotal = dealerTotal + eval(card);
+        });
+      }
+    });
   }
 }
 
@@ -312,3 +337,16 @@ function compareTotals() {
 /*----- cached element references -----*/
 /*----- event listeners -----*/
 /*----- functions -----*/
+
+// dealer's card facing down
+
+// ace as 1 or 11
+// A + 4 = 15
+// A + 4 + K = 15
+
+// 3 + 2 + 5 + A = 21
+
+// dealer
+// A + 7 = 18
+
+// if dealer and player both get 21?
