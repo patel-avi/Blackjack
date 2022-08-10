@@ -123,6 +123,7 @@ let message;
 let dealCard;
 let removedCards = [];
 let addCard;
+let hiddenCard;
 
 // 3) Store elements on the page that will be accessed in code more than once in variables to make code more concise, readable and performant.
 
@@ -167,6 +168,8 @@ function init() {
   deal("dealer");
   calcTotal("dealer");
   renderCards("dealer");
+  deal("dealer");
+  hideDealerCard();
 }
 init();
 
@@ -200,7 +203,22 @@ function renderCards(playerOrDealer) {
 // 		4.2.1) Player has both cards face up
 
 // 		4.2.2) Dealer has one card face up and one face down
+function hideDealerCard() {
+  addCard = document.createElement("div");
+  addCard.classList.add("card");
+  addCard.classList.add("large");
+  addCard.classList.add("back");
+  dealerCardsEl.appendChild(addCard);
+  hiddenCard = String(dealCard);
+}
 
+function showDealerCard() {
+  calcTotal("dealer");
+  dealerTotalEl.textContent = dealerTotal;
+  let hiddenCardEl = document.querySelector(".back");
+  hiddenCardEl.classList.remove("back");
+  hiddenCardEl.classList.add(hiddenCard);
+}
 // 	4.3) Wait for the user to click hit or stand
 
 // 5) Handle a player clicking hit
@@ -212,13 +230,9 @@ hitButton.addEventListener("click", function () {
     standButton.disabled = true;
     hitButton.disabled = true;
     message.textContent = "YOU WIN!";
-    deal("dealer");
-    calcTotal("dealer");
-    renderCards("dealer");
+    showDealerCard();
   } else if (playerTotal >= 21) {
-    deal("dealer");
-    calcTotal("dealer");
-    renderCards("dealer");
+    showDealerCard();
   }
 });
 // 	5.1) Deal the player another card
@@ -230,6 +244,9 @@ standButton.addEventListener("click", function () {
   standButton.disabled = true;
   hitButton.disabled = true;
   if (playerTotal <= 21) {
+    showDealerCard();
+  }
+  if (dealerTotal < 21) {
     dealDealer();
   }
 });
@@ -238,7 +255,9 @@ function dealDealer() {
   deal("dealer");
   calcTotal("dealer");
   renderCards("dealer");
-  if (dealerTotal > 21) {
+  if (dealerTotal === 21) {
+    compareTotals()
+  } else if (dealerTotal > 21) {
     message.textContent = "YOU WIN!";
   } else if (dealerTotal < 17) {
     dealDealer();
