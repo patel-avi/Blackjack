@@ -164,11 +164,11 @@ function init() {
   dA = hA = sA = cA = 11;
   hitButton.disabled = false;
   standButton.disabled = false;
-  initialDeal();
+  initDeal();
 }
 init();
 
-function initialDeal() {
+function initDeal() {
   removeAllCards(playerCardsEl);
   removeAllCards(dealerCardsEl);
   deck = deck.concat(removedCards);
