@@ -37,7 +37,7 @@ h2  {
     font-family: 'Inknut Antiqua', serif;
 }
 
-.buttons {
+.player-buttons {
     display:flex;
     justify-content: center;
 }
@@ -53,7 +53,7 @@ button {
     width: 100px;
 }
 
-.container {
+.newgame-container {
     text-align: center;
 }
 
