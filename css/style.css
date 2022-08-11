@@ -4,19 +4,22 @@
 
 body {
     background-color: #4AA569;
+    height: 100vh;
+    background: radial-gradient(transparent 30%, black), #4AA569;
 }
 
 h1 {
     text-align: center;
     font-family: 'Inika', serif;
     font-size: 50px;
-    margin: 30px 0;
+    margin: 5vh 0;
 }
 
 h2  {
     text-align: center;
     font-family: 'Inter', sans-serif;
     font-size: 24px;
+    color: rgba(0, 0, 0, 0.5)
 }
 
 .dealer, .player {
@@ -29,7 +32,7 @@ h2  {
     text-align: center;
     height: 50px;
     line-height: 50px;
-    margin: 40px 0;
+    margin: 4vh 0;
     font-size: 30px;
     font-family: 'Inknut Antiqua', serif;
 }
