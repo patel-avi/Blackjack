@@ -107,9 +107,9 @@ let playerTotal = 0;
 let dealerCards = [];
 let dealerTotal = 0;
 let message;
-let dealCard;
+let dealtCard;
 let removedCards = [];
-let addCard;
+let newCard;
 let hiddenCard;
 
 /*----- cached element references -----*/
@@ -200,28 +200,28 @@ function removeAllCards(element) {
 function renderCards(playerOrDealer) {
   if (playerOrDealer === "player") {
     playerTotalEl.textContent = playerTotal;
-    addCard = document.createElement("div");
-    addCard.classList.add(String(dealCard));
-    addCard.classList.add("card");
-    addCard.classList.add("large");
-    playerCardsEl.appendChild(addCard);
+    newCard = document.createElement("div");
+    newCard.classList.add(String(dealtCard));
+    newCard.classList.add("card");
+    newCard.classList.add("large");
+    playerCardsEl.appendChild(newCard);
   } else if (playerOrDealer === "dealer") {
     dealerTotalEl.textContent = dealerTotal;
-    addCard = document.createElement("div");
-    addCard.classList.add(String(dealCard));
-    addCard.classList.add("card");
-    addCard.classList.add("large");
-    dealerCardsEl.appendChild(addCard);
+    newCard = document.createElement("div");
+    newCard.classList.add(String(dealtCard));
+    newCard.classList.add("card");
+    newCard.classList.add("large");
+    dealerCardsEl.appendChild(newCard);
   }
 }
 
 function hideDealerCard() {
-  addCard = document.createElement("div");
-  addCard.classList.add("card");
-  addCard.classList.add("large");
-  addCard.classList.add("back");
-  dealerCardsEl.appendChild(addCard);
-  hiddenCard = String(dealCard);
+  newCard = document.createElement("div");
+  newCard.classList.add("card");
+  newCard.classList.add("large");
+  newCard.classList.add("back");
+  dealerCardsEl.appendChild(newCard);
+  hiddenCard = String(dealtCard);
 }
 
 function showDealerCard() {
@@ -249,13 +249,13 @@ function dealDealer() {
 
 function deal(playerOrDealer) {
   randomIndex = Math.floor(Math.random() * deck.length);
-  dealCard = deck[randomIndex];
+  dealtCard = deck[randomIndex];
   deck.splice(randomIndex, 1);
-  removedCards.push(dealCard);
+  removedCards.push(dealtCard);
   if (playerOrDealer === "player") {
-    playerCards.push(dealCard);
+    playerCards.push(dealtCard);
   } else if (playerOrDealer === "dealer") {
-    dealerCards.push(dealCard);
+    dealerCards.push(dealtCard);
   }
 }
 
