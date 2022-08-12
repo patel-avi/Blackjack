@@ -113,13 +113,13 @@ let newCard;
 let hiddenCard;
 
 /*----- cached element references -----*/
-let playerCardsEl = document.querySelector(".player-cards");
-let playerTotalEl = document.getElementById("player-total");
-let dealerCardsEl = document.querySelector(".dealer-cards");
-let dealerTotalEl = document.getElementById("dealer-total");
-let hitButton = document.getElementById("hit");
-let standButton = document.getElementById("stand");
-let newGameButton = document.getElementById("new-game");
+const playerCardsEl = document.querySelector(".player-cards");
+const playerTotalEl = document.getElementById("player-total");
+const dealerCardsEl = document.querySelector(".dealer-cards");
+const dealerTotalEl = document.getElementById("dealer-total");
+const hitButton = document.getElementById("hit");
+const standButton = document.getElementById("stand");
+const newGameButton = document.getElementById("new-game");
 message = document.getElementById("message");
 
 /*----- event listeners -----*/
@@ -132,8 +132,8 @@ hitButton.addEventListener("click", function () {
     hitButton.disabled = true;
     showDealerCard();
     if (dealerTotal != 21) {
-        message.textContent = "YOU WIN!";
-    } else message.textContent = "PUSH"
+      dealDealer();
+    } else message.textContent = "PUSH";
   } else if (playerTotal >= 21) {
     showDealerCard();
   }
@@ -204,19 +204,19 @@ function renderCards(playerOrDealer) {
     playerTotalEl.textContent = playerTotal;
     newCard = document.createElement("div");
     newCard.classList.add(String(dealtCard), "card", "large");
-    playerCardsEl.appendChild(newCard);
+    playerCardsEl.append(newCard);
   } else if (playerOrDealer === "dealer") {
     dealerTotalEl.textContent = dealerTotal;
     newCard = document.createElement("div");
     newCard.classList.add(String(dealtCard), "card", "large");
-    dealerCardsEl.appendChild(newCard);
+    dealerCardsEl.append(newCard);
   }
 }
 
 function hideDealerCard() {
   newCard = document.createElement("div");
   newCard.classList.add("card", "large", "back");
-  dealerCardsEl.appendChild(newCard);
+  dealerCardsEl.append(newCard);
   hiddenCard = String(dealtCard);
 }
 
@@ -224,7 +224,7 @@ function showDealerCard() {
   calcTotal("dealer");
   dealerTotalEl.textContent = dealerTotal;
   let hiddenCardEl = document.querySelector(".back");
-  hiddenCardEl.classList.replace("back",hiddenCard);
+  hiddenCardEl.classList.replace("back", hiddenCard);
 }
 
 function dealDealer() {
