@@ -130,8 +130,10 @@ hitButton.addEventListener("click", function () {
   if (playerTotal === 21) {
     standButton.disabled = true;
     hitButton.disabled = true;
-    message.textContent = "YOU WIN!";
     showDealerCard();
+    if (dealerTotal != 21) {
+        message.textContent = "YOU WIN!";
+    } else message.textContent = "PUSH"
   } else if (playerTotal >= 21) {
     showDealerCard();
   }
@@ -201,25 +203,19 @@ function renderCards(playerOrDealer) {
   if (playerOrDealer === "player") {
     playerTotalEl.textContent = playerTotal;
     newCard = document.createElement("div");
-    newCard.classList.add(String(dealtCard));
-    newCard.classList.add("card");
-    newCard.classList.add("large");
+    newCard.classList.add(String(dealtCard), "card", "large");
     playerCardsEl.appendChild(newCard);
   } else if (playerOrDealer === "dealer") {
     dealerTotalEl.textContent = dealerTotal;
     newCard = document.createElement("div");
-    newCard.classList.add(String(dealtCard));
-    newCard.classList.add("card");
-    newCard.classList.add("large");
+    newCard.classList.add(String(dealtCard), "card", "large");
     dealerCardsEl.appendChild(newCard);
   }
 }
 
 function hideDealerCard() {
   newCard = document.createElement("div");
-  newCard.classList.add("card");
-  newCard.classList.add("large");
-  newCard.classList.add("back");
+  newCard.classList.add("card", "large", "back");
   dealerCardsEl.appendChild(newCard);
   hiddenCard = String(dealtCard);
 }
@@ -228,8 +224,7 @@ function showDealerCard() {
   calcTotal("dealer");
   dealerTotalEl.textContent = dealerTotal;
   let hiddenCardEl = document.querySelector(".back");
-  hiddenCardEl.classList.remove("back");
-  hiddenCardEl.classList.add(hiddenCard);
+  hiddenCardEl.classList.replace("back",hiddenCard);
 }
 
 function dealDealer() {
